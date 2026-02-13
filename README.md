@@ -3,7 +3,8 @@
 Short, practical runbooks for NOC / Monitoring (Linux).
 
 ## How I write runbooks
-- Evidence first: commands + outputs
+- Runbooks: purpose → checks → decision → fix → validate
+- Incidents: evidence + RCA
 - Clear escalation notes
 - Quick checks (first 2 minutes)
 
