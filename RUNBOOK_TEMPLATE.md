@@ -1,41 +1,53 @@
-# Runbook Template (Single Block)
+# Runbook: <Problema> (RB-XXX)
 
-## When to use
-(1–2 lines)
+## Objetivo
+Resolver/diagnosticar <problema> sin improvisar.
 
-## Symptoms
-- ...
+## Cuándo usar
+- Alertas típicas: ...
+- Síntomas: ...
 
-## Commands (evidence + fix + validate)
-~~~bash
-# === QUICK CHECKS / EVIDENCE ===
-# commands to understand the issue + paste outputs under each command
+## Alcance / Suposiciones
+- Sistema: Debian / systemd
+- Servicio: <service>
+- Qué NO cubre: ...
 
-# Example:
-# systemctl status <service> --no-pager
-# journalctl -u <service> -n 80 --no-pager
-# ss -tulpn | grep ':22' || echo "Port 22 not listening"
-# df -h
+## Checklist rápido (2–3 min)
+1) Estado del servicio:
+   - `systemctl status <service> --no-pager`
+   - Señales: active/failed, exit-code, últimas líneas
+2) Logs recientes:
+   - `journalctl -u <service> -n 80 --no-pager`
+   - Señales: “permission denied”, “bind”, “config error”
+3) ¿Está escuchando?
+   - `ss -tulpn | grep -E ':<port>\b' || echo "No escucha en <port>"`
+   - Señales: proceso + puerto
 
-# --- PASTE OUTPUTS HERE ---
-# (paste real output right below each command)
+## Diagnóstico (si no salió en el rápido)
+- Disco/memoria:
+  - `df -h`
+  - `free -h`
+- Config:
+  - ubicación: ...
+  - validar: ...
 
-# === FIX / MITIGATION ===
-# Example:
-# sudo systemctl restart <service>
-# sudo systemctl enable <service>
+## Mitigación / Fix (opciones)
+- Opción 1 (segura): ...
+- Opción 2 (si aplica): ...
+- Comandos:
+  - `sudo systemctl restart <service>`
 
-# === VALIDATE ===
-# Example:
-# systemctl is-active <service>
-# ss -tulpn | grep ':22'
-# curl -I http://127.0.0.1:80
+## Validación
+- `systemctl is-active <service>`
+- `ss -tulpn | grep -E ':<port>\b'`
+- Prueba funcional:
+  - `curl -I http://127.0.0.1:<port>`
 
-# === ESCALATE IF ===
-# - Not solved in 15 minutes
-# - Need permissions / access / higher level change
-# Include: commands + key outputs + timeline
+## Riesgos / Rollback
+- Riesgo:
+- Rollback:
 
-# === MY NOTES ===
-
-~~~ 
+## Escalar si…
+- No hay permisos / requiere cambio mayor
+- Impacto alto
+- Error de infraestructura (red/firewall/almacenamiento)
